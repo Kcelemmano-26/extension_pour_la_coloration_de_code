@@ -1,0 +1,195 @@
+{
+  "name": "code-highlighter-annotations",
+  "publisher": "code-highlighter",
+  "author": "Méleck MISSIKPODE",
+  "displayName": "Code Highlighter with Annotations",
+  "description": "Annotate and highlight code blocks with custom headers, background colors, persistence and export features",
+  "version": "1.0.0",
+  "publisher": "code-highlighter",
+  "engines": {
+    "vscode": "^1.74.0"
+  },
+  "categories": [
+    "Other",
+    "Visualization",
+    "Documentation"
+  ],
+  "keywords": [
+    "highlight",
+    "annotate",
+    "code",
+    "comments",
+    "visual",
+    "documentation",
+    "markdown",
+    "jsdoc"
+  ],
+  "activationEvents": [
+    "onCommand:codeHighlighter.annotateSelection",
+    "onCommand:codeHighlighter.clearSelection",
+    "onCommand:codeHighlighter.exportMarkdown",
+    "onCommand:codeHighlighter.exportJSDoc"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codeHighlighter.annotateSelection",
+        "title": "Annoter la sélection",
+        "category": "Code Highlighter"
+      },
+      {
+        "command": "codeHighlighter.clearSelection",
+        "title": "Réinitialiser la sélection",
+        "category": "Code Highlighter"
+      },
+      {
+        "command": "codeHighlighter.clearAll",
+        "title": "Supprimer toutes les annotations",
+        "category": "Code Highlighter"
+      },
+      {
+        "command": "codeHighlighter.exportMarkdown",
+        "title": "Exporter en Markdown",
+        "category": "Code Highlighter"
+      },
+      {
+        "command": "codeHighlighter.exportJSDoc",
+        "title": "Exporter en JSDoc",
+        "category": "Code Highlighter"
+      },
+      {
+        "command": "codeHighlighter.savePreset",
+        "title": "Sauvegarder comme preset",
+        "category": "Code Highlighter"
+      },
+      {
+        "command": "codeHighlighter.managePresets",
+        "title": "Gérer les presets",
+        "category": "Code Highlighter"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "codeHighlighter.annotateSelection",
+          "when": "editorHasSelection",
+          "group": "1_modification@1"
+        },
+        {
+          "command": "codeHighlighter.clearSelection",
+          "when": "editorHasSelection", 
+          "group": "1_modification@2"
+        },
+        {
+          "submenu": "codeHighlighter.export",
+          "group": "9_cutcopypaste@3"
+        }
+      ],
+      "codeHighlighter.export": [
+        {
+          "command": "codeHighlighter.exportMarkdown",
+          "group": "export@1"
+        },
+        {
+          "command": "codeHighlighter.exportJSDoc",
+          "group": "export@2"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "codeHighlighter.export",
+        "label": "Code Highlighter Export"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "codeHighlighter.annotateSelection",
+        "key": "ctrl+alt+h",
+        "mac": "cmd+alt+h",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codeHighlighter.clearSelection",
+        "key": "ctrl+alt+shift+h",
+        "mac": "cmd+alt+shift+h",
+        "when": "editorTextFocus"
+      },
+      {
+        "command": "codeHighlighter.exportMarkdown",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m",
+        "when": "editorTextFocus"
+      }
+    ],
+    "configuration": {
+      "title": "Code Highlighter",
+      "properties": {
+        "codeHighlighter.defaultColor": {
+          "type": "string",
+          "default": "#3498db",
+          "description": "Couleur par défaut pour les annotations"
+        },
+        "codeHighlighter.showHeaders": {
+          "type": "boolean",
+          "default": true,
+          "description": "Afficher les en-têtes au-dessus des blocs annotés"
+        },
+        "codeHighlighter.enablePersistence": {
+          "type": "boolean",
+          "default": true,
+          "description": "Sauvegarder automatiquement les annotations"
+        },
+        "codeHighlighter.persistenceMode": {
+          "type": "string",
+          "enum": ["workspace", "file"],
+          "default": "workspace",
+          "description": "Mode de persistance : workspace (VS Code) ou file (.annotations.json)"
+        },
+        "codeHighlighter.enableHoverPreview": {
+          "type": "boolean",
+          "default": true,
+          "description": "Afficher l'aperçu au survol"
+        },
+        "codeHighlighter.customColors": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "description": "Couleurs personnalisées (format hex)"
+        },
+        "codeHighlighter.presets": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "title": {"type": "string"},
+              "color": {"type": "string"}
+            }
+          },
+          "default": [
+            {"name": "Important", "title": "Important", "color": "#e74c3c"},
+            {"name": "À réviser", "title": "À réviser", "color": "#f39c12"},
+            {"name": "Bug", "title": "Bug", "color": "#e74c3c"},
+            {"name": "TODO", "title": "TODO", "color": "#3498db"},
+            {"name": "Note", "title": "Note", "color": "#2ecc71"}
+          ],
+          "description": "Presets d'annotations prédéfinis"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^18.x",
+    "@types/vscode": "^1.74.0",
+    "typescript": "^4.9.4"
+  }
+}
